@@ -59,6 +59,12 @@ app.put("/campgrounds/:id", async (req, res) => {
   res.redirect(`/campgrounds/${campgroud._id}`);
 });
 
+app.delete("/campgrounds/:id", async (req, res) => {
+  const { id } = req.params;
+  await Campground.findByIdAndDelete(id);
+  res.redirect("/campgrounds");
+});
+
 app.listen(3000, (req, res) => {
   console.log("ポート3000で待受中...");
 });
