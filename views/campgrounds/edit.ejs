@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>キャンプ場の編集</h1>
-    <form action="/campgrounds" method="POST">
+    <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST">
       <div>
         <label for="title">タイトル</label>
         <input
