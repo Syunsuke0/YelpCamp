@@ -1,6 +1,10 @@
 <% layout('layouts/boilerplate') %>
     <h1><%= campground.title %></h1>
     <h2><%= campground.location %></h2>
+    <img src="<%= campground.image %>" alt="">
+    <p>
+      <%= campground.description %>
+    </p>
     <p>
       <a href="/campgrounds/<%= campground._id %>/edit">編集する</a>
     </p>
@@ -9,7 +13,7 @@
         <button>削除する</button>
       </form>
     </p>
-    <footer>
-      <a href="/campgrounds">一覧に戻る</a>
-    </footer>
+<footer>
+  <a href="/campgrounds">一覧に戻る</a>
+</footer>
 
