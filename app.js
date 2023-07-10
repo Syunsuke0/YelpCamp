@@ -91,8 +91,11 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = "問題が起きました" } = err;
-  res.status(statusCode).send(message);
+  const { statusCode = 500, message } = err;
+  if (!err.message) {
+    err.message = "問題が起きました";
+  }
+  res.status(statusCode).render("error", { err });
 });
 
 app.listen(3000, (req, res) => {
