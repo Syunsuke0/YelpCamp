@@ -3,6 +3,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
+const ExpressError = require("./utils/ExpressEroor");
 const methodOverride = require("method-override");
 const Campground = require("./models/campground");
 
@@ -41,6 +42,8 @@ app.get("/campgrounds/new", (req, res) => {
 app.post(
   "/campgrounds",
   catchAsync(async (req, res) => {
+    if (!req.body.campground)
+      throw new ExpressError("不正なキャンプ場のデータです", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
@@ -83,8 +86,13 @@ app.delete(
   })
 );
 
+app.all("*", (req, res, next) => {
+  next(new ExpressError("ページが見つかりませんでした", 404));
+});
+
 app.use((err, req, res, next) => {
-  res.send("問題が起きました");
+  const { statusCode = 500, message = "問題が起きました" } = err;
+  res.status(statusCode).send(message);
 });
 
 app.listen(3000, (req, res) => {
