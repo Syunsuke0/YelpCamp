@@ -58,5 +58,11 @@
       </div>
       <button class="btn-success">投稿する</button>
     </form>
+    <% for(let review of campground.reviews) { %>
+    <div class="mb3">
+      <p>評価 : <%= review.rating %></p>
+      <p>コメント : <%= review.body %></p>
+    </div>
+    <% } %>
   </div>
 </div>
