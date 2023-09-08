@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 mongoose
   .connect("mongodb://localhost:27017/yelp-camp", {
@@ -42,6 +43,12 @@ const sessionConfig = {
   },
 };
 app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  next();
+});
 
 app.get("/", (req, res) => {
   res.render("home");
