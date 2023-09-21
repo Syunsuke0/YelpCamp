@@ -44,7 +44,6 @@ router.get(
     const campground = await Campground.findById(req.params.id)
       .populate("reviews")
       .populate("author");
-    console.log(campground);
     if (!campground) {
       req.flash("error", "キャンプ場は見つかりませんでした");
       return res.redirect("/campgrounds");
@@ -57,10 +56,15 @@ router.get(
   "/:id/edit",
   isLoggedIn,
   catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
     if (!campground) {
       req.flash("error", "キャンプ場は見つかりませんでした");
       return res.redirect("/campgrounds");
+    }
+    if (!campground.author.equals(req.user._id)) {
+      req.flash("error", "更新する権限がありません。");
+      return res.redirect(`/campgrounds/${id}`);
     }
     res.render("campgrounds/edit", { campground });
   })
@@ -72,11 +76,16 @@ router.put(
   validateCampground,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const campgroud = await Campground.findByIdAndUpdate(id, {
+    const campground = await Campground.findById(id);
+    if (!campground.author.equals(req.user._id)) {
+      req.flash("error", "更新する権限がありません。");
+      return res.redirect(`/campgrounds/${id}`);
+    }
+    const camp = await Campground.findByIdAndUpdate(id, {
       ...req.body.campground,
     });
     req.flash("success", "キャンプ場を更新しました");
-    res.redirect(`/campgrounds/${campgroud._id}`);
+    res.redirect(`/campgrounds/${camp._id}`);
   })
 );
 
