@@ -32,6 +32,7 @@ router.post(
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/login",
+    keepSessionInfo: true,
   }),
   (req, res) => {
     req.flash("success", "おかえりなさい!!");
@@ -42,11 +43,12 @@ router.post(
 );
 
 router.get("/logout", (req, res) => {
-  req.logout(req.user, (err) => {
-    if (err) return next(err);
-    req.flash("success", "ログアウトしました");
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    req.flash("success", "ログアウトしました。");
     res.redirect("/campgrounds");
   });
 });
-
 module.exports = router;
