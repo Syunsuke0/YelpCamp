@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
 
 <div class="row">
   <div class="col-6">
@@ -69,17 +70,18 @@
     <% } %> <% for(let review of campground.reviews) { %>
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title">評価 : <%= review.rating %></h5>
-        <h6 class="card-subtitle mb-2 text-muted">
-          <%= review.author.username %>
-        </h6>
+        <%= review.author.username %>
+        <h5 class="card-title"></h5>
+        <p class="starability-result" data-rating="<%= review.rating %>">
+          評価: <%= review.rating %>
+        </p>
         <p class="card-text">コメント : <%= review.body %></p>
         <% if(currentUser && review.author.equals(currentUser._id)) { %>
         <form
           action="/campgrounds/<%= campground.id %>/reviews/<%= review._id %>?_method=DELETE"
           method="POST"
         >
-          <button class="btn btn-sm btn-danger">削除する!!!</button>
+          <button class="btn btn-sm btn-danger">削除する</button>
         </form>
         <% } %>
       </div>
