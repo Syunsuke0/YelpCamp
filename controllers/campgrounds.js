@@ -51,10 +51,6 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateCampground = async (req, res) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
-  if (!campground.author.equals(req.user._id)) {
-    req.flash("error", "更新する権限がありません。");
-    return res.redirect(`/campgrounds/${id}`);
-  }
   const camp = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground,
   });
