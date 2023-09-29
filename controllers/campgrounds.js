@@ -33,7 +33,7 @@ module.exports.createCampground = async (req, res) => {
   }));
   campground.author = req.user._id;
   await campground.save();
-  // console.log(campground);
+  console.log(campground);
   req.flash("success", "新しいキャンプ場を登録しました");
   res.redirect(`/campgrounds/${campground._id}`);
 };
