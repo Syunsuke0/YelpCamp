@@ -161,6 +161,7 @@
 
 <script>
   const mapToken = "<%= process.env.MAPBOX_TOKEN %>";
-  const campground = <%- campground %>
+  const campground = <%- JSON.stringify(campground) %>
+  //挙動に問題は発生していないため、エラー表示は無視。おそらくejsとvsCODEの相性が悪い
 </script>
 <script src="/javascripts/showPageMap.js"></script>
