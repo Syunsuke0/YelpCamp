@@ -70,10 +70,35 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(flash());
-app.use;
-helmet({
-  contentSecurityPolicy: false,
-});
+app.use(helmet());
+
+const scriptSrcUrls = ["https://api.mapbox.com", "https://cdn.jsdelivr.net"];
+const styleSrcUrls = ["https://api.mapbox.com", "https://cdnjsdelivr.net"];
+const connectSrcUrls = [
+  "https://api.mapbox.com",
+  "https://*.tiles.mapbox.com",
+  "https://events.mapbox.com",
+];
+const fontSrcUrls = [];
+const imgSrcUrls = [
+  "https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/",
+  "https://images.unsplash.com",
+];
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      stylesSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", "blob:"],
+      childSrc: ["blob:"],
+      objectSrc: [],
+      imgSrc: ["'self'", "blob:", "data:", ...imgSrcUrls],
+      fontSrc: ["'self'", ...fontSrcUrls],
+    },
+  })
+);
 
 app.use((req, res, next) => {
   console.log(req.query);
