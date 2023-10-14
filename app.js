@@ -73,7 +73,7 @@ app.use(flash());
 app.use(helmet());
 
 const scriptSrcUrls = ["https://api.mapbox.com", "https://cdn.jsdelivr.net"];
-const styleSrcUrls = ["https://api.mapbox.com", "https://cdnjsdelivr.net"];
+const styleSrcUrls = ["https://api.mapbox.com", "https://cdn.jsdelivr.net"];
 const connectSrcUrls = [
   "https://api.mapbox.com",
   "https://*.tiles.mapbox.com",
@@ -81,16 +81,17 @@ const connectSrcUrls = [
 ];
 const fontSrcUrls = [];
 const imgSrcUrls = [
-  "https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/",
+  `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`,
   "https://images.unsplash.com",
 ];
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: [],
       connectSrc: ["'self'", ...connectSrcUrls],
       scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
-      stylesSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
       workerSrc: ["'self'", "blob:"],
       childSrc: ["blob:"],
       objectSrc: [],
