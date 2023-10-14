@@ -73,7 +73,7 @@ app.use(flash());
 app.use;
 helmet({
   contentSecurityPolicy: false,
-})();
+});
 
 app.use((req, res, next) => {
   console.log(req.query);
